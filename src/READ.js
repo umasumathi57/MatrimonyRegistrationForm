@@ -1,16 +1,18 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { ReadOne } from './Axiosconnect';
 import { read } from './PersonDetails';
 
 export const Read=(sri)=>{
 
     const[book,setBook]=useState({
-
+            diaId:0,
             diaUname:"",
             diaFname:"",
             diaGen:"",
             DiaQuali:"",
             diaAge:"",
-            diaMblno:"",
+            diaMblno:0,
             diaEmail:"",
             diaLang:new Array()
        
@@ -20,8 +22,9 @@ export const Read=(sri)=>{
         studying()
     })
 
-    const studying=()=>{
-        setBook(read(sri.who))
+    const studying=async()=>{
+        const r=await ReadOne(sri.who)
+        setBook(r.data)
     }
 
     return(

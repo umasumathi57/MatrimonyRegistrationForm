@@ -1,23 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { UpdateOne } from './Axiosconnect'
 import { alter } from './PersonDetails'
 
 export const Update=(mom)=>
 {
-    const[pos,setPos]=useState(mom.who)
+  //  const[pos,setPos]=useState(mom.who)
 
     const[diary,SetDiary]=useState(
         {
-            diaUname:mom.store.diaUname,
-            diaFname:mom.store.diaFname,
-            diaGen:mom.store.diaGen,
-            diaQuali:mom.store.diaQuali,
-            diaAge:mom.store.diaAge,
-            diaMblno:mom.store.diaMblno,
-            diaEmail:mom.store.diaEmail,
-            diaLang:mom.store.diaLang
+            "diaId":mom.store.diaId,
+            "diaUname":mom.store.diaUname,
+            "diaFname":mom.store.diaFname,
+            "diaGen":mom.store.diaGen,
+            "diaQuali":mom.store.diaQuali,
+            "diaAge":mom.store.diaAge,
+            "diaMblno":mom.store.diaMblno,
+            "diaEmail":mom.store.diaEmail,
+            "diaLang":mom.store.diaLang
 
         }
     )
+
+    useEffect(()=>{
+        let wind=""
+        diary.diaLang.map((content)=>{
+            wind+=content+","
+        })
+        // replace resSkills from array to simple text/string
+        diary.diaLang=wind
+    },[])
+
     const trace=(team)=>{
         const{name,value}=team.target;
         SetDiary(
@@ -36,9 +48,12 @@ export const Update=(mom)=>
 
     }
 
-    const save=()=>{
-        alert("Details modified successfully")
-        alter(pos,diary)
+    const save=async()=>{
+      //  alert("Details modified successfully")
+      //  alter(pos,diary)
+      diary.diaLang=diary.diaLang.split(",")
+      const temp=await UpdateOne(diary)
+      alert(temp.data)
     }
 
     const remove=()=>{
@@ -100,20 +115,20 @@ export const Update=(mom)=>
                         onChange={trace}
                         value={diary.diaGen}
                         type="radio" 
-                        name="diaGen" 
+                        name="Male" 
                         className="ms-3"/>Male
                         <input 
                         onChange={trace}
                         value={diary.diaGen}
                         type="radio" 
-                        name="diaGen" 
+                        name="Female" 
                         className="ms-3"/>Female
                         <input 
                         onChange={trace}
                         value={diary.diaGen}
                         type="radio" 
-                        name="diaGen" 
-                        className="ms-3"/>others
+                        name="Others" 
+                        className="ms-3"/>Others
                     </div>
                     <div className="form-group mt-2">
                         <label>Qualification</label>
@@ -133,15 +148,18 @@ export const Update=(mom)=>
                         value={diary.diaAge}
                         className="form-select mt-">
                             <option selected hidden>Age limit</option>
-                            <option>21-25</option>
-                            <option>26-30</option>
-                            <option>31-40</option>
+                            <option>21</option>
+                            <option>22</option>
+                            <option>23</option>
+                            <option>24</option>
+
                         </select>
                     </div>
                     <div className="form-group mt-2">
                         <label>Contact no</label>
                         <input 
-                        type="tel" 
+                        type="number" 
+                        
                         onChange={trace}
                         name="diaMblno"
                         value={diary.diaMblno}
@@ -158,27 +176,13 @@ export const Update=(mom)=>
                     </div>
                     <div className="form-group mt-2">
                         <label>Languages</label>
-                        <input onChange={track}
+                        <textarea className="form-control"
+                        name="diaLang"
+                        value={diary.diaLang}
+                        onChange={track}>
+                        </textarea>
 
-                        type="checkbox"  className="form-input-check ms-4"/>Tamil
-                        <input 
-                        onChange={track}
-                        name="Telugu"
-                        value="Telugu"
-                        type="checkbox"  className="form-input-check ms-4"/>Telugu
-
-                        <input 
-                        onChange={track}
-                        type="checkbox"  className="form-input-check ms-4"/>Kannada
-                        name="Kannada"
-                        value="Kannada"
-
-                        <input
-                        name="Malayalam"
-                        value="Malayalam"
-                        onChange={track}
-
-                        type="checkbox"  className="form-input-check ms-4"/>Malayalam
+                        
                     </div>
                     <div className="row justify-content-around mt-4">
                         <button onClick={save} className="btn btn-outline-success col-4">Register </button>

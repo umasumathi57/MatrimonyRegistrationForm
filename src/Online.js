@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "../node_modules/bootstrap-icons/font/bootstrap-icons.css"
+import { assemble, clean } from './Axiosconnect';
 import { MetDetails } from './Matrimonyform';
 import { del, list,fetch } from './PersonDetails';
 import { Read } from './READ';
@@ -14,8 +15,16 @@ export const Online=()=>{
     const[edit,setEdit]=useState(false)
     const[object,SetObject]=useState({})
 
-    const view=()=>{
-        setLocalArr(list())
+    const view=async()=>{
+        const v=await assemble()
+        setLocalArr(v.data)
+    }
+
+    const toErase=async(value)=>{
+
+        const hey=await clean(value)
+        alert(hey.data)
+        window.location.assign("/")
     }
     
     useEffect(()=>{
@@ -32,6 +41,8 @@ export const Online=()=>{
                 <button onClick={
                     ()=>{
                         setVisual(false)
+                        window.location.assign("/")
+
                     }
                 }
                 >
@@ -41,11 +52,13 @@ export const Online=()=>{
             :
             (edit)?
             <>
-            <Update who={pos} store={object}/>
+            <Update  store={object}/>
 
             <button onClick={
                 ()=>{
                     setEdit(false)
+                    window.location.assign("/")
+
                 }
             }
             >
@@ -109,7 +122,7 @@ export const Online=()=>{
                                 <button onClick={
                                     ()=>{
                                         setStudy(true)
-                                        setPos(index)
+                                        setPos(elements.diaId)
                                     }
                                 }
                                 >
@@ -124,7 +137,7 @@ export const Online=()=>{
                             <td>{elements.diaGen}</td>
                             <td>{elements.diaQuali}</td>
                             <td>{elements.diaAge}</td>
-                            <td>{elements.diaMblno}</td>
+                            <td>{elements.diaMblNo}</td>
                             <td>{elements.diaEmail}</td>
                             <td>{elements.diaLang}</td>
                             <td>
@@ -133,9 +146,9 @@ export const Online=()=>{
                                 onClick={
                                     ()=>{
                                         setEdit(true)
-                                        setPos(index)
-                                        const my=fetch(elements.diaUname)
-                                        SetObject(my)
+                                      //  setPos(index)
+                                      //  const my=fetch(elements.diaUname)
+                                        SetObject(elements)
                                     }
                                 }
                                 >
@@ -146,8 +159,8 @@ export const Online=()=>{
 
                                 onClick={
                                     ()=>{
-                                      setLocalArr( del(pos
-                                        ) )
+                                     //</td> setLocalArr( del(pos))
+                                     toErase(elements.diaId)
                                     }
                                 }
                                 

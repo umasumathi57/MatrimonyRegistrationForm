@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import { join } from "./Axiosconnect";
 import { create } from "./PersonDetails";
 
 export const MetDetails=()=>
@@ -35,10 +36,13 @@ export const MetDetails=()=>
 
     }
 
-    const save=()=>{
-        alert("Details saved successfully")
-        create(diary)
-    }
+    const save=async()=>{
+      //  alert("Details saved successfully")
+        //create(diary)
+
+        const hai=await join(diary)
+        alert(hai.data)
+      }
 
     const remove=()=>{
         alert("details discarded")
@@ -97,22 +101,22 @@ export const MetDetails=()=>
                         <label className="mt-2">Gender</label>
                         <input 
                         onChange={trace}
-                        value={diary.diaGen}
+                        value="Male"
                         type="radio" 
                         name="diaGen" 
                         className="ms-3"/>Male
                         <input 
                         onChange={trace}
-                        value={diary.diaGen}
+                        value="Female"
                         type="radio" 
                         name="diaGen" 
                         className="ms-3"/>Female
                         <input 
                         onChange={trace}
-                        value={diary.diaGen}
+                        value="Others"
                         type="radio" 
                         name="diaGen" 
-                        className="ms-3"/>others
+                        className="ms-3"/>Others
                     </div>
                     <div className="form-group mt-2">
                         <label>Qualification</label>
@@ -132,15 +136,16 @@ export const MetDetails=()=>
                         value={diary.diaAge}
                         className="form-select mt-">
                             <option selected hidden>Age limit</option>
-                            <option>21-25</option>
-                            <option>26-30</option>
-                            <option>31-40</option>
+                            <option>22</option>
+                            <option>23</option>
+                            <option>24</option>
+                            <option>25</option>
                         </select>
                     </div>
                     <div className="form-group mt-2">
                         <label>Contact no</label>
                         <input 
-                        type="tel" 
+                        type="number" 
                         onChange={trace}
                         name="diaMblno"
                         value={diary.diaMblno}
@@ -157,29 +162,30 @@ export const MetDetails=()=>
                     </div>
                     <div className="form-group mt-2">
                         <label>Languages</label>
-                        <input onChange={track}
+                        <input type="checkbox" 
+                        onChange={track}
+                        name="Tamil"
+                        value="Tamil"
+                         className="form-input-check ms-4"/>Tamil
 
-                        type="checkbox"  className="form-input-check ms-4"/>Tamil
-                        <input 
+                        <input type="checkbox" 
                         onChange={track}
                         name="Telugu"
                         value="Telugu"
-                        type="checkbox"  className="form-input-check ms-4"/>Telugu
+                        className="form-input-check ms-4"/>Telugu
 
-                        <input 
-                        onChange={track}
-                        type="checkbox"  
+                        <input type="checkbox"
+                        onChange={track} 
                         name="Kannada"
                         value="Kannada"
                         className="form-input-check ms-4"/>Kannada
                         
 
-                        <input
+                        <input type="checkbox"
                         name="Malayalam"
                         value="Malayalam"
                         onChange={track}
-
-                        type="checkbox"  className="form-input-check ms-4"/>Malayalam
+                        className="form-input-check ms-4"/>Malayalam
                     </div>
                     <div className="row justify-content-around mt-4">
                         <button onClick={save} className="btn btn-outline-success col-4">Register </button>
